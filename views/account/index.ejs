@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="nl-NL">
+    <head>
+        <meta charset="utf-8">
+        <title>Account - HP Panel</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="/serverPanel/style.css">
+        
+    </head>
+
+    <body>
+        <div class="header">
+            <h1 class="title">HP Panel</h1>
+            <h2 class="subtitle">Your account</h2>
+        </div>
+
+        <div class="profile">
+            <h3 class="profile-account"><a href="/account">My Account: <%= account.username %></a></h3>
+            <p class="profile-logout">
+                <% if(account.admin > 0){ %>
+                    <a href="/admin">Admin</a><br>
+                <% } %>
+                <a href="/console">Dashboard</a><br>
+                <a href="/logout">Logout</a>
+            </p>
+        </div>
+
+        <div class="panelMsg">
+            <% if(msg.content !== ""){ %>
+                <p style=<%= `color:${msg.color};` %>><%= msg.content %></p>
+            <% } %>
+        </div>
+
+        <div class="user">
+            <h3 class="username">My account info</h3>
+            <p class="content">
+                <span class="id">User ID: <%= account.id %></span><br>
+                <span class="username">Username: <%= account.username %></span><br>
+                <span class="email">Email adress: <%= account.email %></span><br>
+                <h4 class="projects">projects: 
+                    <% if(account.projects.length <= 0){ %>
+                        <span>None</span>
+                    <% } else { %>
+                        <table>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                            </tr>
+                            <% for(var i in account.projects){ %>
+                                <% var project = account.projects[i]; %>
+                                <tr class="tableRow" onclick=<%= `window.location.assign('/console/${project.id}')` %>>
+                                    <td><%= project.id %></td>
+                                    <td><%= project.name %></td>
+                                    <td><%= project.status %></td>
+                                </tr>
+                            <% } %>
+                        </table>
+                    <% } %>
+                    </h4>
+            </p>
+            
+            <div class="actions">
+            </div>
+        </div>
+
+        <script src="/serverStats.js"></script>
+    </body>
+</html>
+

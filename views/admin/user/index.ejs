@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html lang="nl-NL">
+    <head>
+        <meta charset="utf-8">
+        <title>Admin Users - HP Panel</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="/serverPanel/style.css">
+    </head>
+
+    <body>
+        <div class="header">
+            <h1 class="title">HP Panel</h1>
+            <h2 class="subtitle">Admin Panel - Users</h2>
+        </div>
+
+        <div class="profile">
+            <h3 class="profile-account"><a href="/account">My Account: <%= account.username %></a></h3>
+            <p class="profile-logout">
+                <% if(account.admin > 0){ %>
+                    <a href="/admin">Admin</a><br>
+                <% } %>
+                <a href="/console">Dashboard</a><br>
+                <a href="/logout">Logout</a>
+            </p>
+        </div>
+
+        <div class="panelMsg">
+            <% if(msg.content !== ""){ %>
+                <p style=<%= `color:${msg.color};` %>><%= msg.content %></p>
+            <% } %>
+        </div>
+
+        <table class="users">
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Admin</th>
+            </tr>
+            <% for(var i=0;i<accounts.length;i++){ %>
+                <% var userAcc = accounts[i] %>
+                <tr class="user tableRow" onclick=<%= `window.location.assign('/admin/users/${userAcc.id}')`  %>>
+                    <td class="user-id"><%= userAcc.id %></td>
+                    <td class="user-email"><%= userAcc.email %></td>
+                    <td class="user-username"><%= userAcc.username %></td>
+                    <td class="user-admin"><%= userAcc.admin == 0 ? "no" : userAcc.admin %></td>
+                </tr>
+            <% } %>
+        </table>
+
+    </body>
+</html>
+

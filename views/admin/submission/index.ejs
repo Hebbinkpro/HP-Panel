@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html lang="nl-NL">
+    <head>
+        <meta charset="utf-8">
+        <title>Admin Submissions - HP Panel</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="/serverPanel/style.css">
+    </head>
+
+    <body>
+        <div class="header">
+            <h1 class="title">HP Panel</h1>
+            <h2 class="subtitle">Admin Panel - Submissions</h2>
+        </div>
+
+        <div class="profile">
+            <h3 class="profile-account"><a href="/account">My Account: <%= account.username %></a></h3>
+            <p class="profile-logout">
+                <% if(account.admin > 0){ %>
+                    <a href="/admin">Admin</a><br>
+                <% } %>
+                <a href="/console">Dashboard</a><br>
+                <a href="/logout">Logout</a>
+            </p>
+        </div>
+
+        <div class="panelMsg">
+            <% if(msg.content !== ""){ %>
+                <p style=<%= `color:${msg.color};` %>><%= msg.content %></p>
+            <% } %>
+        </div>
+
+        <table class="submissions">
+            <tr>
+                <th>Time</th>
+                <th>Name</th>
+            </tr>
+            <% for(var i=0;i<submissions.length;i++){ %>
+                <% var submission = submissions[i] %>
+                <tr class="submission tableRow" onclick=<%= `window.location.assign('/admin/submissions/${submission.id}')`  %>>
+                    <td class="submission-time"><%= new Date(submission.time).toLocaleString("nl-NL", {timeZone: "Europe/Amsterdam", hour12: false}); %></td>
+                    <td class="submission-name"><%= submission.name %></td>
+                </tr>
+            <% } %>
+        </table>
+
+    </body>
+</html>
+

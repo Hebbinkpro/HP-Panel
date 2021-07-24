@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html lang="nl-NL">
+    <head>
+        <meta charset="utf-8">
+        <title>Admin Projects - HP Panel</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="/serverPanel/style.css">
+    </head>
+
+    <body>
+        <div class="header">
+            <h1 class="title">HP Panel</h1>
+            <h2 class="subtitle">Admin Panel - Projects</h2>
+        </div>
+
+        <div class="profile">
+            <h3 class="profile-account"><a href="/account">My Account: <%= account.username %></a></h3>
+            <p class="profile-logout">
+                <% if(account.admin > 0){ %>
+                    <a href="/admin">Admin</a><br>
+                <% } %>
+                <a href="/console">Dashboard</a><br>
+                <a href="/logout">Logout</a>
+            </p>
+        </div>
+
+        <div class="panelMsg">
+            <% if(msg.content !== ""){ %>
+                <p style=<%= `color:${msg.color};` %>><%= msg.content %></p>
+            <% } %>
+        </div>
+
+        <div class="project">
+            <h3 class="project-name">Project info from: <%= project.name %></h3>
+            <p class="content">
+                <span class="id">Project ID: <%= project.id %></span><br>
+                <span class="name">Project Name: <%= project.name %></span><br>
+                <span class="username">Owner: <a href=<%= `/admin/users/${project.owner.id}` %>><%= project.owner.username %></a></span><br>
+                <span class="status">Status: <%= project.status %></span><br>
+            </p>
+            
+            <div class="actions">
+                <form method="GET" action=<%= `/console/${project.id}` %>><button>To project dashboard</button></form>
+                <form method="POST" action=<%= `/admin/projects/${project.id}` %>><button name="action" value="setActive"><%= project.status === "Inactive" ? "Activate" : "Inactivate" %></button></form>
+                <% if(account.admin >= 2){ %>
+                    <form method="POST" action=<%= `/admin/projects/${project.id}` %>><button name="action" value="delete">Delete</button></form>
+                <% } %>
+            </div>
+        </div>
+
+    </body>
+</html>
+

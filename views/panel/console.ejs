@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html lang="nl-NL">
+    <head>
+        <meta charset="utf-8">
+        <title>Console <%= server.name %> - HP Panel</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="/serverPanel/style.css">
+        <script src="https://www.gstatic.com/charts/loader.js"></script>
+    </head>
+
+    <body>
+        <div class="header">
+            <h1 class="title">HP Panel</h1>
+            <h2>Server Console <span id="server"><%= server.name %></span></h2>
+        </div>
+
+        <div class="profile">
+            <h3 class="profile-account"><a href="/account">My Account: <%= account.username %></a></h3>
+            <p class="profile-logout">
+                <% if(account.admin > 0){ %>
+                    <a href="/admin">Admin</a><br>
+                <% } %>
+                <a href="/console">Dashboard</a><br>
+                <a href="/logout">Logout</a>
+            </p>
+        </div>
+
+        <div class="panelMsg">
+            <% if(msg.content !== ""){ %>
+                <p style=<%= `color:${msg.color};` %>><%= msg.content %></p>
+            <% } %>
+        </div>
+
+        <iframe name="poster" style="display:none;"></iframe>
+    
+        <div id="status">
+            <form id="statusButtons" target="poster" method="POST" action=<%= `/console/${server.id}/action` %> style="display: inline;">
+                <button id="statusButtons-start" name="type" value="start">Start</button>
+                <button id="statusButtons-restart" name="type" value="restart">Restart</button>
+                <button id="statusButtons-stop" name="type" value="stop">Stop</button>
+            </form>
+
+            <h3 id="statusMsg">Status: <span id="statusMsg-id" style="color: yellow;">Waiting...</span></h3>
+        </div>
+
+        <div id="server-console" class="console"></div>
+
+        <form id="server-console-cmd" target="poster" method="POST" action=<%= `/console/${server.id}/sendCommand` %> onsubmit='setTimeout(()=>{document.getElementById("server-console-cmd-cmd").value = ""},5)'>
+            <input id="server-console-cmd-cmd" type="text" name="command" placeholder="Send a command">
+            <input type="submit">
+        </form>
+
+        <div class="charts" style="display: inline;">
+            <div id="chart-ram" style="max-width:350px; height:200px"></div>
+            <div id="chart-cpu" style="max-width:350px; height:200px"></div>
+        </div>
+        <style>
+            .charts text{
+                fill: white;
+            }
+        </style>
+
+        <div id="serverData" data-server=<%= JSON.stringify(server) %>>
+
+        <script src="/serverPanel/consoleScript.js"></script>
+    </body>
+</html>
+

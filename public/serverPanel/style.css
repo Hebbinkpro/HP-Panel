@@ -1,0 +1,84 @@
+.console {
+    margin: 4px, 4px;
+    padding: 4px;
+
+    width: 70%;
+    height: 350px;
+
+    font-size:15px;
+    color:#FFF;
+    border: 1px solid gray;
+    background-color: #252525;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align:justify;
+}
+
+.serverBox {
+    background-color: #252525;
+    width: 70%;
+    height: 50px;
+    top: 150px;
+    margin: auto;
+    border: 1px solid transparent;
+}
+
+.serverBox:hover{
+    border-color: white;
+    cursor: context-menu;
+}
+
+.serverBox .serverBox-name {
+    text-align: left;
+    font-size: 30px;
+    transform: translate(5%, -62.5%);
+}
+
+.serverBox .serverBox-status {
+    text-align: right;
+    font-size: 30px;
+    transform: translate(-5%, -250%);
+}
+
+.noServers {
+    width: 70%;
+    height: 50px;
+    top: 150px;
+    margin: auto;
+    border: 1px solid transparent;
+    text-align: center;
+    font-size: 30px;
+    transform: translate(0, 250%);
+    width: auto;
+}
+
+.serverBox form {
+    width: 15%;
+    transform: translate(500%, -650%);
+}
+
+.serverBox .serverBox-button {
+    width: 100%;
+    height: 100%;
+}
+
+.serverBox .serverBox-button:hover {
+    cursor: pointer;
+}
+
+.addserver {
+    width: 15%;
+    transform: translate(467.5%,-50%);
+}
+
+.addserver .addserver-form {
+    width: 100%;
+    height: 100%;
+}
+
+.addserver .addserver-form button {
+    width: 100%;
+    height: 100%;
+}
+

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html lang="nl-NL">
+    <head>
+        <meta charset="utf-8">
+        <title>Admin Users - HP Panel</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="/serverPanel/style.css">
+    </head>
+
+    <body>
+        <div class="header">
+            <h1 class="title">HP Panel</h1>
+            <h2 class="subtitle">Admin Panel - Users</h2>
+        </div>
+
+        <div class="profile">
+            <h3 class="profile-account"><a href="/account">My Account: <%= account.username %></a></h3>
+            <p class="profile-logout">
+                <% if(account.admin > 0){ %>
+                    <a href="/admin/users"><- Back</a><br>
+                    <a href="/admin">Admin</a><br>
+                <% } %>
+                <a href="/console">Dashboard</a><br>
+                <a href="/logout">Logout</a>
+            </p>
+        </div>
+
+        <div class="panelMsg">
+            <% if(msg.content !== ""){ %>
+                <p style=<%= `color:${msg.color};` %>><%= msg.content %></p>
+            <% } %>
+        </div>
+
+        <div class="user">
+            <h3 class="username">Account info from: <%= user.username %></h3>
+            <p class="content">
+                <span class="id">User ID: <%= user.id %></span><br>
+                <span class="username">Username: <%= user.username %></span><br>
+                <span class="email">Email adress: <%= user.email %></span><br>
+                <h4 class="projects">projects: 
+                    <% if(user.projects.length <= 0){ %>
+                        <span>None</span>
+                    <% } else { %>
+                        <table>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                            </tr>
+                            <% for(var i in user.projects){ %>
+                                <% var project = user.projects[i]; %>
+                                <tr class="tableRow" onclick=<%= `window.location.assign('/admin/projects/${project.id}')` %>>
+                                    <td><%= project.id %></td>
+                                    <td><%= project.name %></td>
+                                </tr>
+                            <% } %>
+                        </table>
+                    <% } %>
+                    </h4>
+            </p>
+            
+            <div class="actions">
+                
+                <% if(account.id != user.id && account.admin > user.admin){ %>
+                    <% if(account.admin >= 2){ %>
+                        <form method="POST" action=<%= `/admin/users/${user.id}` %>><button name="action" value="setAdmin"><%= user.admin == 0 ? "Make Admin" : "Remove Admin" %></button></form>
+                        <form method="POST" action=<%= `/admin/users/${user.id}` %>><button name="action" value="delete">Delete</button></form>
+                    <% } %>
+                <% }else{ %>
+                    <p>You can't moderate this account</p>
+                <% } %>
+            </div>
+        </div>
+
+    </body>
+</html>
+
