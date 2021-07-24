@@ -14,9 +14,11 @@ A panel created with nodejs to manage other nodejs projects
 
 ## How to setup
 1. Download the files
-2. Run `node index.js`
-3. Anwser the questions in the terminal
-4. You are done
+2. Open the folder with all the files in your terminal
+3. run `npm install ` to install all the node modules
+4. run `node index` to start the project for the first time
+5. Anwser the questions in the terminal
+6. You are done
 
 ## How to run a project on the panel
 - Login with your account
