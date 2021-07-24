@@ -1,5 +1,6 @@
 # HP-Panel
 A panel created with nodejs to manage other nodejs projects
+**This project is not completed yet**
 
 ## Features
 - Windows and Linux support
@@ -31,3 +32,6 @@ A panel created with nodejs to manage other nodejs projects
 - Click on the submission of the project
 - Click on the `Approve` (to let the project work) or `Reject` (to delete the submission) button
 - If the submission is approved you can start your project for the first time
+
+## TO DO
+- Improving the style of the webpages
