@@ -1,0 +1,495 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+html{
+    font-family: 'Roboto', sans-serif;
+    
+}
+body{
+    background-color: #222;
+
+    cursor: default;
+    color: #fafafa;
+}
+a{
+    color:#fafafa;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+input{
+    padding: 3px;
+    border-radius: 5px;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+/*
+    HEADER
+*/
+
+.header{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 38px;
+    padding: 10px 0;
+    background-color: #111;
+    display: inline;
+    box-shadow: 0 2.5px rgba(0,0,0,0.7);
+}
+
+.header .title{
+    padding-left: 10px;
+}
+
+/*
+    HEADER - NAVIGATION
+*/
+
+.header .navigation{
+    position: absolute;
+    width: 100%;
+    top: 20px;
+    text-align: right;
+}
+
+.header .navigation ul{
+    list-style-type: none;
+    display: inline-block;
+    border-radius: 10px;
+}
+
+.header .navigation li{
+    padding: 10px;
+    display: inline;
+    border-radius: 10px;
+}
+
+.header .navigation a{
+    text-decoration: none;
+}
+
+.header .navigation img{
+    width: 25px;
+    height: 25px;
+}
+
+
+/*
+    FOOTER
+*/
+
+.footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px 0;
+    background-color: transparent;
+    text-align: right;
+}
+.footer p{
+    padding-right: 10px;
+}
+
+/*
+    LOGIN
+*/
+
+.loginHeader{
+    text-align: center;
+}
+
+.login {
+    position: absolute;
+    text-align: center;
+    background-color: #333;
+    left: 35%;
+    width: 30%;
+    height: auto;
+    top: 30%;
+    padding: 1%;
+    border-radius: 5px;
+    box-shadow: 2.5px 2.5px #111;
+}
+
+.login button{
+    padding: 5px;
+    width: 30%;
+    border-radius: 10px;
+    background-color: rgb(46, 49, 226);
+    font-size: 15px;
+    color: #fafafa;
+    box-shadow: 1px 1px #222;;
+    border: none;
+}
+
+/*
+    Content defaults
+*/
+
+.content {
+    margin-top: 80px;
+    border-radius: 10px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.content .title{
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.content .message{
+    position: absolute;
+    width: 50%;
+    left: 50%;
+    margin-top: -40px;
+    margin-left: -25%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.content .back {
+    position: absolute;
+    margin-top: -80px;
+    background-color: #333;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    box-shadow: 1px 1px #111;
+}
+
+.content .back:hover{
+    border-color: white;
+}
+
+.content .dataBox{
+    position: absolute;
+    width: 17%;
+}
+
+.content .dataBox .data{
+    background-color: #333;
+    padding: 10px;
+    border-radius: 0 0 5px 5px;
+    width: 100%;
+}
+
+.content .dataBox .name{
+    background-color: #111;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+}
+
+.content .charts text{
+    fill: white;
+}
+
+.content .chart{
+    width: 300px;
+    height: 200px;
+}
+
+/*
+    Dashboard
+*/
+
+.content .addServer{
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+
+.content .addServer button{
+    float: right;
+    margin-right: -10px;
+    margin-top: -40px;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: rgb(46, 49, 226);
+    font-size: 15px;
+    color: #fafafa;
+    box-shadow: 1px 1px #222;;
+    border: none;
+}
+
+.content .servers .serverBox{
+    background-color: #333;
+    width: 80%;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    display: block;
+    box-shadow: 0.5px 0.5px #111;
+    border-radius: 5px;
+    border: 1px solid transparent
+}
+
+.content .servers .serverBox:hover{
+    cursor: pointer;
+    border-color: #fafafa;
+}
+
+.content .servers .serverBox .name{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.content .servers .serverBox .status{
+    font-size: 25px;
+    margin-top: -30px;
+    text-align: right;
+}
+
+/*
+    Console
+*/
+
+.content .server .info .buttons{
+    margin-top: 10px;
+    background-color: #333;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+}
+.content .server .info .buttons form{
+    margin-left: calc(25% - 10px);
+}
+.content .server .info .buttons button{
+    color: #fafafa;
+    padding: 2px 5px;
+    border-radius: 5px;
+    border: 1px solid #222;
+    background-color: #333;
+}
+.content .server .info .buttons button:hover{
+    border-color: #fafafa;
+}
+.content .server .info .buttons .start{
+    background-color: darkgreen;
+}
+
+.content .server .info .buttons .stop{
+    background-color: rgb(180, 36, 36);
+}
+.content .server .info .buttons button:disabled{
+    background-color: #222;
+    color: #aaa;
+}
+.content .server .info .buttons button:hover:disabled{
+    border-color: #222;
+    cursor: default;
+}
+
+.content .server .console{
+    position: absolute;
+    width: 40.5%;
+    left: 27%;
+    top: 23.5%;
+}
+
+.content .server .console .terminal{
+    margin: 4px, 4px;
+    padding: 5px;
+    border-radius: 5px;
+    
+    width: 100%;
+    height: 60vh;
+    
+    font-size:15px;
+    color:#FFF;
+    background-color: #111;
+    
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align:justify;
+}
+.content .server .charts{
+    position: absolute;
+    top: 23.5%;
+    left: 71%;
+    
+}
+.content .server .charts div{
+    margin-bottom: 10px;
+}
+
+/*
+    Submit Project
+*/
+
+.content .submitProject{
+    background-color: #333;
+    padding: 20px;
+    border-radius: 5px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.content .submitProject button{
+    padding: 5px;
+    width: 30%;
+    border-radius: 10px;
+    background-color: rgb(46, 49, 226);
+    font-size: 15px;
+    color: #fafafa;
+    box-shadow: 1px 1px #222;;
+    border: none;
+}
+
+.content .submitProject .uploadFileBtn{
+    padding: 5px;
+    border-radius: 5px;
+    background-color: rgb(46, 49, 226);
+    font-size: 15px;
+    color: #fafafa;
+    box-shadow: 1px 1px #222;;
+    border: none;
+    cursor: pointer;
+}
+
+/*
+    Account
+*/
+
+.content .account .info{
+    width: 30%;
+    left: 15%;
+}
+
+.content .account .actions {
+    width: 30%;
+    left: 55%;
+    padding-bottom: 10px;
+}
+
+.content .account .actions p{
+    padding-left: 10px;
+    padding-top: 10px;
+}
+.content .account .actions span:hover{
+    cursor: not-allowed;
+}
+
+.content .account .projects {
+    width: 50%;
+    left: 50%;
+    top: 400px;
+    margin-left: -25%;
+}
+
+.content .account .projects table {
+    text-align: center;
+    width: 100%;
+}
+
+.content .account .projects td {
+    background-color: #222;
+}
+
+.content .account .projects td:hover{
+    cursor: pointer;
+}
+
+/*
+    Admin
+*/
+
+.content .admin .info{
+    width: 30%;
+    left: 15%;
+}
+
+.content .admin .serverStats{
+    width: 30%;
+    left: 55%;
+}
+
+.content .admin .serverStats .charts{
+    width: 100%;
+    padding: 10px;
+}
+
+.content .admin .serverStats .chart{
+    width: calc(100% + 20px);
+}
+
+/*
+    Admin list
+*/
+.content .adminList {
+    position: absolute;
+    width: 60%;
+    left: 50%;
+    margin-left: -30%;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.content .adminList td {
+    background-color: #222;
+    text-align: center;
+}
+
+.content .adminList td:hover{
+    cursor: pointer;
+}
+
+/*
+    Admin item
+*/
+.content .adminItem .info{
+    width: 30%;
+    left: 15%;
+}
+
+.content .adminItem .actions {
+    left: 60%;
+    width: 30%;
+    left: 55%;
+}
+
+.content .adminItem .actions button {
+    padding: 5px;
+    border-radius: 10px;
+    background-color: transparent;
+    font-size: 15px;
+    color: #fafafa;
+    box-shadow: 1px 1px #222;
+    border: 1px solid #111;
+    margin-bottom: 10px;
+}
+
+.content .adminItem .actions button:hover{
+    border-color: white;
+}
+
+.content .adminItem .projects {
+    width: 50%;
+    left: 50%;
+    top: 400px;
+    margin-left: -25%;
+}
+
+.content .adminItem .projects table {
+    text-align: center;
+    width: 100%;
+}
+
+.content .adminItem .projects td {
+    background-color: #222;
+}
+
+.content .adminItem .projects td:hover{
+    cursor: pointer;
+}

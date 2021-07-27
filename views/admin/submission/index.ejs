@@ -5,47 +5,57 @@
         <meta charset="utf-8">
         <title>Admin Submissions - HP Panel</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/style.css">
-        <link rel="stylesheet" href="/serverPanel/style.css">
+        <link rel="stylesheet" href="/static/css/main.css">
     </head>
 
     <body>
         <div class="header">
             <h1 class="title">HP Panel</h1>
-            <h2 class="subtitle">Admin Panel - Submissions</h2>
+
+            <div class="navigation">
+                <ul class="list">
+                    <li><a href="/"><img src="/static/resources/nav/dashboard.png"></a></li>
+                    <li><a href="/account"><img src="/static/resources/nav/account.png"></a></li>
+                    <% if(account.admin > 0){ %>
+                        <li><a href="/admin"><img src="/static/resources/nav/admin.png"></a></li>
+                    <% } %>
+                    <li><a href="/logout"><img src="/static/resources/nav/logout.png"></a></li>
+                </ul>
+            </div>
         </div>
 
-        <div class="profile">
-            <h3 class="profile-account"><a href="/account">My Account: <%= account.username %></a></h3>
-            <p class="profile-logout">
-                <% if(account.admin > 0){ %>
-                    <a href="/admin">Admin</a><br>
+        <div class="content">
+            <h2 class="title">Submission List</h2>
+
+            <div class="message">
+                <% if(msg.content !== ""){ %>
+                    <p style=<%= `color:${msg.color};` %>><%= msg.content %></p>
                 <% } %>
-                <a href="/console">Dashboard</a><br>
-                <a href="/logout">Logout</a>
-            </p>
-        </div>
+            </div>
 
-        <div class="panelMsg">
-            <% if(msg.content !== ""){ %>
-                <p style=<%= `color:${msg.color};` %>><%= msg.content %></p>
-            <% } %>
-        </div>
-
-        <table class="submissions">
-            <tr>
-                <th>Time</th>
-                <th>Name</th>
-            </tr>
-            <% for(var i=0;i<submissions.length;i++){ %>
-                <% var submission = submissions[i] %>
-                <tr class="submission tableRow" onclick=<%= `window.location.assign('/admin/submissions/${submission.id}')`  %>>
-                    <td class="submission-time"><%= new Date(submission.time).toLocaleString("nl-NL", {timeZone: "Europe/Amsterdam", hour12: false}); %></td>
-                    <td class="submission-name"><%= submission.name %></td>
+            <div class="back" onclick="window.location.assign('/admin')">
+                <p><- Back</p>
+            </div>
+    
+            <table class="submissions adminList">
+                <tr>
+                    <th>Time</th>
+                    <th>ID</th>
+                    <th>Name</th>
                 </tr>
-            <% } %>
-        </table>
+                <% for(var i=0;i<submissions.length;i++){ %>
+                    <% var submission = submissions[i] %>
+                    <tr class="submission tableRow" onclick=<%= `window.location.assign('/admin/submissions/${submission.id}')`  %>>
+                        <td class="submission-time"><%= new Date(submission.time).toLocaleString("nl-NL", {timeZone: "Europe/Amsterdam", hour12: false}); %></td>
+                        <td class="submission-id"><%= submission.id %></td>
+                        <td class="submission-name"><%= submission.name %></td>
+                    </tr>
+                <% } %>
+            </table>
+        </div>
 
+        <div class="footer">
+        </div>
     </body>
 </html>
 

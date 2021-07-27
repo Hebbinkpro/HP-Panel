@@ -1,28 +1,22 @@
-// NODE MODULES
 const express = require("express");
 const app = express();
 module.exports.getApp = ()=>{
     return app;
 }
 
-// CUSTOM MODULES
 const config = require("../config.json");
 const terminal = require("./terminal/manager");
 const logger = require("./utils/logger");
-var saves = {};
 
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const cookieSecret = "1bbd9089-c314-4385-be60-57166e5b85cf"
 
-// OTHER CONSTANTS
-const cookieSecret = "ProtectHPServerPanel"
-
-// EXPRESS SETUP
 app.set("view engine", "ejs");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static(process.cwd() + "/public"));
+app.use("/static",express.static(process.cwd() + "/public"));
 app.use(express.json());
 app.use(cookieParser(cookieSecret));
 app.use(session({

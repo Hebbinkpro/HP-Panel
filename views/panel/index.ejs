@@ -3,64 +3,70 @@
 <html lang="nl-NL">
     <head>
         <meta charset="utf-8">
-        <title>Dashboard - HP Panel</title>
+        <title>Panel - HP Panel</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/style.css">
-        <link rel="stylesheet" href="/serverPanel/style.css">
+        <link rel="stylesheet" href="/static/css/main.css">
     </head>
 
     <body>
         <div class="header">
             <h1 class="title">HP Panel</h1>
-            <h2 class="subtitle">Dashboard</h2>
+
+            <div class="navigation">
+                <ul class="list">
+                    <li><a href="/"><img src="/static/resources/nav/dashboard.png"></a></li>
+                    <li><a href="/account"><img src="/static/resources/nav/account.png"></a></li>
+                    <% if(account.admin > 0){ %>
+                        <li><a href="/admin"><img src="/static/resources/nav/admin.png"></a></li>
+                    <% } %>
+                    <li><a href="/logout"><img src="/static/resources/nav/logout.png"></a></li>
+                </ul>
+            </div>
         </div>
 
-        <div class="profile">
-            <h3 class="profile-account"><a href="/account">My Account: <%= account.username %></a></h3>
+        <div class="content">
+            <h2 class="title">Dashboard</h2>
 
-            <p class="profile-logout">
-                <% if(account.admin > 0){ %>
-                    <a href="/admin">Admin</a><br>
+            <div class="message">
+                <% if(msg.content !== ""){ %>
+                    <p style=<%= `color:${msg.color};` %>><%= msg.content %></p>
                 <% } %>
-                <a href="/logout">Logout</a>
-            </p>
+            </div>
+    
+            <div class="addServer">
+                <form action="/createServer" method="GET" class="form">
+                    <button>Submit project</button>
+                </form>
+            </div>
+
+            <div id="servers" class="servers" data-servers=<%= JSON.stringify(servers) %>>
+                <% for(var x in servers){ %>
+                    <% var server = servers[x]; %>
+                    <% var name = server.name; %>
+                    <% while(server.name.indexOf(" ") >= 0){ %>
+                        <% server.name = server.name.replace(" ", "-") %>
+                    <% } %>
+                    <% servers[x] = server %>
+                <% } %>
+
+                <% var serverCount = 0 %>
+                <% for(var x in servers){ %>
+                    <% var server = servers[x]; %>
+                    <% serverCount++; %>
+                    <div class="serverBox" id=<%= `serverBox-${server.id}` %> onClick=<%= `goToServer(${server.id})` %> >
+                        <div class="serverData" ></div>
+                        <p class="name"><%= server.name %></p>
+                        <p class="status" id=<%= `serverBoxStatus-${server.id}` %>></p>
+                    </div>
+                <% } %>
+                <% if(serverCount == 0){ %>
+                    <h3 class="noServers">You don't have servers</h3>
+                <% } %>
+            </div>
         </div>
 
-        <div class="panelMsg">
-            <% if(msg.content !== ""){ %>
-                <p style=<%= `color:${msg.color};` %>><%= msg.content %></p>
-            <% } %>
-        </div>
-
-        <div class="addserver">
-            <form action="/createServer" method="GET" class="addserver-form">
-                <button>Submit project</button>
-            </form>
-        </div>
-
-        <% for(var x in servers){ %>
-            <% var server = servers[x]; %>
-            <% var name = server.name; %>
-            <% while(server.name.indexOf(" ") >= 0){ %>
-                <% server.name = server.name.replace(" ", "-") %>
-            <% } %>
-            <% servers[x] = server %>
-        <% } %>
-
-        <div id="servers" data-servers=<%= JSON.stringify(servers) %>>
-            <% var serverCount = 0 %>
-            <% for(var x in servers){ %>
-                <% var server = servers[x]; %>
-                <% serverCount++; %>
-                <div class="serverBox" id=<%= `serverBox-${server.id}` %> onClick=<%= `goToServer(${server.id})` %> >
-                    <div class="serverBox-serverData" ></div>
-                    <h3 class="serverBox-name"><%= server.name %></h3>
-                    <h3 class="serverBox-status" id=<%= `serverBoxStatus-${server.id}` %>></h3>
-                </div>
-            <% } %>
-            <% if(serverCount == 0){ %>
-                <h3 class="noServers">You don't have servers</h3>
-            <% } %>
+        <div class="footer">
+            <p>&copy;2021 Hebbinkpro</p>
         </div>
         
         <script>
@@ -69,7 +75,7 @@
                 servers["<%= x %>"] = "<%= servers[x] %>"
             " <% } %>"
         </script>
-        <script src="serverPanel/script.js"></script>
+        <script src="/static/script/dashboardScript.js"></script>
     </body>
 </html>
 

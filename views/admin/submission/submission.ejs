@@ -5,52 +5,64 @@
         <meta charset="utf-8">
         <title>Admin Submissions - HP Panel</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/style.css">
-        <link rel="stylesheet" href="/serverPanel/style.css">
+        <link rel="stylesheet" href="/static/css/main.css">
     </head>
 
     <body>
         <div class="header">
             <h1 class="title">HP Panel</h1>
-            <h2 class="subtitle">Admin Panel - Submissions</h2>
+
+            <div class="navigation">
+                <ul class="list">
+                    <li><a href="/"><img src="/static/resources/nav/dashboard.png"></a></li>
+                    <li><a href="/account"><img src="/static/resources/nav/account.png"></a></li>
+                    <% if(account.admin > 0){ %>
+                        <li><a href="/admin"><img src="/static/resources/nav/admin.png"></a></li>
+                    <% } %>
+                    <li><a href="/logout"><img src="/static/resources/nav/logout.png"></a></li>
+                </ul>
+            </div>
         </div>
 
-        <div class="profile">
-            <h3 class="profile-account"><a href="/account">My Account: <%= account.username %></a></h3>
-            <p class="profile-logout">
-                <% if(account.admin > 0){ %>
-                    <a href="/admin">Admin</a><br>
+        <div class="content">
+            <h2 class="title">Submission: <%= submission.name %></h2>
+
+            <div class="message">
+                <% if(msg.content !== ""){ %>
+                    <p style=<%= `color:${msg.color};` %>><%= msg.content %></p>
                 <% } %>
-                <a href="/console">Dashboard</a><br>
-                <a href="/logout">Logout</a>
-            </p>
+            </div>
+
+            <div class="back" onclick="window.location.assign('/admin/submissions')">
+                <p><- Back</p>
+            </div>
+
+            <div class="submission adminItem">
+                <div class="info dataBox">
+                    <h3 class="name">Info</h3>
+                    <div class="data">
+                        <p>ID: <%= submission.id %></p>
+                        <p>Owner: <a href=<%= `/admin/users/${submission.account.id}` %>><%= submission.account.username %></a></p>
+                        <p>Time: <%= new Date(submission.time).toLocaleString("nl-NL", {timeZone: "Europe/Amsterdam", hour12: false}); %></p>
+                        <br>
+                        <span>
+                            <h4>Description</h4>
+                            <p><%= submission.desc %></p>
+                        </span>
+                    </div>
+                </div>
+    
+                <div class="actions dataBox">
+                    <h3 class="name">Actions</h3>
+                    <div class="data">
+                        <form method="POST" action=<%= `/admin/submissions/${submission.id}/action` %>>
+                            <button name="type" value="approve">Approve</button><br>
+                            <button name="type" value="reject">Reject</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="panelMsg">
-            <% if(msg.content !== ""){ %>
-                <p style=<%= `color:${msg.color};` %>><%= msg.content %></p>
-            <% } %>
-        </div>
-
-        <div class="submission">
-            <h3>Submission for '<%= submission.name %>'</h3>
-            <p><%= new Date(submission.time).toLocaleString("nl-NL", {timeZone: "Europe/Amsterdam", hour12: false}); %></p>
-            <p>
-                <b>By user:</b>
-                <span><a href=<%= `/admin/users/${submission.account.id}` %>><%= submission.account.username %></a></span>
-            </p>
-
-            <p>
-                <b>Description:</b><br>
-                <span><%= submission.desc %></span>
-            </p>
-
-            <form method="POST" action=<%= `/admin/submissions/${submission.id}/action` %>>
-                <button name="type" value="approve">Approve</button>
-                <button name="type" value="reject">Reject</button>
-            </form>
-        </div>
-
     </body>
 </html>
 

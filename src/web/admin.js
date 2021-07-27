@@ -307,7 +307,7 @@ app.post("/admin/projects/:projectId", (req,res)=>{
         }
         if(action === "setActive"){
             var active = project.active == 0 ? true : false;
-            utils.setUrlMsg(req,"/admin/projects/"+projectId,`${active==true ? "Activeted" : "Deactivated"} Project with id '${project.id}'`,"green");
+            utils.setUrlMsg(req,"/admin/projects/"+projectId,`${active==true ? "Activated" : "Deactivated"} Project with id '${project.id}'`,"green");
             projectController.setActive(projectId, active);
             res.redirect("/admin/projects/"+projectId);
         }

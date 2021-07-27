@@ -1,35 +1,42 @@
 <!DOCTYPE html>
 
 <html lang="nl-NL">
-    <head>
-        <meta charset="utf-8">
-        <title>Account Login - HP Panel</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/style.css">
-    </head>
 
-    <body>
-        <div class="header">
-            <h1 class="title">HP Panel</h1>
-            <h2 class="subtitle">Account - Login</h2>
-        </div>
+<head>
+    <meta charset="utf-8">
+    <title>Account Login - HP Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
 
-        <div class="panelMsg">
-            <% if(msg.content !== ""){ %>
-                <p style=<%= `color:${msg.color};` %>><%= msg.content %></p>
+<body>
+    <div class="header loginHeader">
+        <h1 class="title">HP Panel</h1>
+    </div>
+
+    <div class="login">
+        <h2 class="title">Login</h2><br>
+
+        <div class="message">
+            <% if(msg.content !=="" ){ %>
+                <p style=<%=`color:${msg.color};` %>><%= msg.content %></p>
             <% } %>
+            <p></p>
         </div>
 
-        <div class="login">
-            <form class="form" action="/login" method="POST">
-                <label>Username or email:</label><input type="text" name="username" required><br>
-                <label>Password:</label><input type="password" name="password" required><br>
-                <button type="submit">Login</button>
-            </form>
+        <form class="form" action="/login" method="POST">
+            <label>Username or email:</label><br><input type="text" name="username" required><br><br>
+            <label>Password:</label><br><input type="password" name="password" required><br><br>
+            <button type="submit">Login</button>
+        </form><br>
 
-            <p class="login-forgotPassword"><a href="/login">Forgot your password?</a></p>
-            <p class="login-registerMsg">You don't have an account? <a href="/login/register">Register</a></p>
-        </div>
-    </body>
+        <p>No account? <a href="/login/register">Register</a></p>
+        <p><a href="/login">Forgot password?</a></p>
+    </div>
+
+    <div class="footer">
+        <p>&copy;2021 Hebbinkpro</p>
+    </div>
+</body>
+
 </html>
-
