@@ -1,11 +1,11 @@
 const accountController = require("./account/controller");
 const {encrypt} = require("./security/crypto");
-const logger = require("./utils/logger");
 const system = require("./utils/system")
 var processListener = true;
 const fs = require("fs");
 
 async function createAccount(callback){
+    const logger = require("./utils/logger");
     logger.info("The setup is not completed, answer the questions to finish the setup");
 
     const anwsers = {
@@ -15,13 +15,11 @@ async function createAccount(callback){
     }
     var q = 0;
 
-
     process.stdout.write("What is your username? ");
     processListener = process.stdin.on("data", (data)=>{
         if(!processListener) return;
         data = system.removeLines(data.toString());
         
-
         if(q == 0) {
             anwsers.username = data;
             process.stdout.write("What is your email? ");
@@ -51,6 +49,7 @@ async function createAccount(callback){
 }
 
 async function finishCreateAccount(anwsers, callback){
+    const logger = require("./utils/logger");
     var data = await accountController.create(anwsers.email, anwsers.username, anwsers.password);
     await accountController.setAdmin(data.id,2);
 
@@ -60,19 +59,16 @@ async function finishCreateAccount(anwsers, callback){
 }
 
 async function createFiles(){
-    logger.debug("Checking for missing files and folders...");
     var dir = process.cwd();
     
     try{
         fs.readdirSync(`${dir}/data`);
     }catch(err){
-        logger.debug("Creating the data folder");
         try{
             fs.mkdirSync(`${dir}/data`);
-            logger.debug("Created the data folder");
         } catch(err){
             if(err){
-                logger.error(err);
+                console.error(err);
             }
         }
     }
@@ -82,11 +78,10 @@ async function createFiles(){
     }catch(err){
         try{
             fs.mkdirSync(`${dir}/data/tmp`);
-            logger.debug("Created the tmp folder");
         }
         catch(err){
             if(err){
-                logger.error(err);
+                console.error(err);
             }
         }
     }
@@ -96,11 +91,10 @@ async function createFiles(){
     }catch(err){
         try{
             fs.mkdirSync(`${dir}/data/submissions`);
-            logger.debug("Created the submissions folder");
         }
         catch(err){
             if(err){
-                logger.error(err);
+                console.error(err);
             }
         }
     }
@@ -110,11 +104,10 @@ async function createFiles(){
     }catch(err){
         try{
             fs.mkdirSync(`${dir}/data/rejections`);
-            logger.debug("Created the rejections folder");
         }
         catch(err){
             if(err){
-                logger.error(err);
+                console.error(err);
             }
         }
     }
@@ -124,11 +117,10 @@ async function createFiles(){
     }catch(err){
         try{
             fs.mkdirSync(`${dir}/data/projects`);
-            logger.debug("Created the backup projects folder");
         }
         catch(err){
             if(err){
-                logger.error(err);
+                console.error(err);
             }
         }
     }
@@ -138,11 +130,10 @@ async function createFiles(){
     }catch(err){
         try{
             fs.mkdirSync(`${dir}/projects`);
-            logger.debug("Created the projects folder");
         }
         catch(err){
             if(err){
-                logger.error(err);
+                console.error(err);
             }
         }
     }
@@ -152,17 +143,47 @@ async function createFiles(){
     }catch(err){
         try{
             fs.mkdirSync(`${dir}/data/deleted`);
-            logger.debug("Created the deleted folder");
         }
         catch(err){
             if(err){
-                logger.error(err);
+                console.error(err);
             }
         }
     }
 }
 
+function createConfig() {
+    var configData = {};
+    try{
+        configData = JSON.parse(fs.readFileSync(`${process.cwd()}/config.json`))
+    }catch(err){}
+
+    if(!configData.hasOwnProperty("ip")) configData.ip = "127.0.0.1";
+    if(!configData.hasOwnProperty("port")) configData.port = 8000;
+    if(!configData.hasOwnProperty("allowedPaths")) configData.allowedPaths = [
+            "/favicon.ico",
+            "/login",
+            "/api/online",
+            "/api/console/"
+        ];
+    if(!configData.hasOwnProperty("adminPaths")) configData.adminPaths = [
+            "/admin"
+        ];
+    if(!configData.hasOwnProperty("debug")) configData.debug = false;
+    if(configData.hasOwnProperty("debug-errors")) configData["debug-errors"] = false;
+    if(!configData.hasOwnProperty("error-trace")) configData["error-trace"] = true;
+    if(!configData.hasOwnProperty("log-file")) configData["log-file"] = true;
+
+    try{
+        fs.writeFileSync(`${process.cwd()}/config.json`, JSON.stringify(configData, 0, 4));
+    } catch(err){
+        console.error(err);
+        process.kill(process.pid);
+    }
+}
+
 module.exports = {
     createAccount,
-    createFiles
+    createFiles,
+    createConfig
 }

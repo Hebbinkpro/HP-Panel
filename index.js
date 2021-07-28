@@ -1,8 +1,6 @@
-const fs = require('fs');
-
-createConfig();
-
 const setup = require("./src/setup");
+setup.createConfig();
+
 const dbManager = require("./src/databaseManager");
 const accountController = require("./src/account/controller");
 const projectController = require("./src/project/controller");
@@ -25,6 +23,8 @@ async function enable() {
         kill();
     });
 
+    await setup.createFiles();
+
     logger.custom("---------------------------------------------", true);
     logger.info("Starting the panel");
 
@@ -35,8 +35,6 @@ async function enable() {
         kill();
         return;
     }
-
-    await setup.createFiles();
 
     await dbManager.connect();
     await projectController.setup();
@@ -51,10 +49,8 @@ async function enable() {
         return;
     }
 
-
     startServer();
 }
-
 
 function startServer() {
     terminator.add("main", module.exports);
@@ -67,39 +63,6 @@ function startServer() {
 function kill() {
     logger.info("Stopping the server...");
     process.kill(process.pid);
-}
-
-/**
- * Create the config
- */
-function createConfig() {
-    var configData = {};
-    try{
-        configData = JSON.parse(fs.readFileSync(`${process.cwd()}/config.json`))
-    }catch(err){}
-
-    if(!configData.hasOwnProperty("ip")) configData.ip = "127.0.0.1";
-    if(!configData.hasOwnProperty("port")) configData.port = 8000;
-    if(!configData.hasOwnProperty("allowedPaths")) configData.allowedPaths = [
-            "/favicon.ico",
-            "/login",
-            "/api/online",
-            "/api/console/"
-        ];
-    if(!configData.hasOwnProperty("adminPaths")) configData.adminPaths = [
-            "/admin"
-        ];
-    if(!configData.hasOwnProperty("debug")) configData.debug = false;
-    if(configData.hasOwnProperty("debug-errors")) configData["debug-errors"] = false;
-    if(!configData.hasOwnProperty("error-trace")) configData["error-trace"] = true;
-    if(!configData.hasOwnProperty("log-file")) configData["log-file"] = true;
-
-    try{
-        fs.writeFileSync(`${process.cwd()}/config.json`, JSON.stringify(configData, 0, 4));
-    } catch(err){
-        console.error(err);
-        process.kill(process.pid);
-    }
 }
 
 module.exports = {
