@@ -5,8 +5,7 @@ const system = require("./utils/system")
 var processListener = true;
 const fs = require("fs");
 
-
-async function createAccount(cb){
+async function createAccount(callback){
     logger.info("The setup is not completed, answer the questions to finish the setup");
 
     const anwsers = {
@@ -45,11 +44,12 @@ async function createAccount(cb){
 
             processListener = false;
 
-            finishCreateAccount(anwsers, cb)
+            finishCreateAccount(anwsers, callback)
         }
         q++;
     });
 }
+
 async function finishCreateAccount(anwsers, callback){
     var data = await accountController.create(anwsers.email, anwsers.username, anwsers.password);
     await accountController.setAdmin(data.id,2);
@@ -59,41 +59,10 @@ async function finishCreateAccount(anwsers, callback){
     callback();
 }
 
-/**
- * Create all missing required files and folders
- */
-async function data(){
+async function createFiles(){
     logger.debug("Checking for missing files and folders...");
     var dir = process.cwd();
-    fs.readFile(`${dir}/config.json`, (err)=>{
-        if(err){
-            logger.debug("Creating the config file");
-            fs.writeFile(`${dir}/config.json`, JSON.stringify({
-                    "ip": "127.0.0.1",
-                    "port": 8000,
-                    "allowedPaths": [
-                        "/favicon.ico",
-                        "/login",
-                        "/api/online",
-                        "/api/console/"
-                    ],
-                    "adminPaths": [
-                        "/admin"
-                    ],
-                    "debug": true,
-                    "debug-errors": false,
-                    "error-trace": true,
-                    "log-file": true
-                }, 0, 4), (err)=>{
-                    if(err){
-                        logger.error(err);
-                        return;
-                    }
-                    logger.debug("Created the config file");
-            });
-        }
-    });
-
+    
     try{
         fs.readdirSync(`${dir}/data`);
     }catch(err){
@@ -193,8 +162,7 @@ async function data(){
     }
 }
 
-
 module.exports = {
     createAccount,
-    data
+    createFiles
 }
