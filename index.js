@@ -79,7 +79,7 @@ function createConfig() {
     }catch(err){}
 
     if(!configData.hasOwnProperty("ip")) configData.ip = "127.0.0.1";
-    if(!configData.hasOwnProperty("port")) port = 8000;
+    if(!configData.hasOwnProperty("port")) configData.port = 8000;
     if(!configData.hasOwnProperty("allowedPaths")) configData.allowedPaths = [
             "/favicon.ico",
             "/login",
