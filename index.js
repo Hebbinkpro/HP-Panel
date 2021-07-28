@@ -78,21 +78,21 @@ function createConfig() {
         configData = JSON.parse(fs.readFileSync(`${process.cwd()}/config.json`))
     }catch(err){}
 
-    if(!configData.ip) configData.ip = "127.0.0.1";
-    if(!configData.port) port = 8000;
-    if(!configData.allowedPaths) configData.allowedPaths = [
+    if(!configData.hasOwnProperty("ip")) configData.ip = "127.0.0.1";
+    if(!configData.hasOwnProperty("port")) port = 8000;
+    if(!configData.hasOwnProperty("allowedPaths")) configData.allowedPaths = [
             "/favicon.ico",
             "/login",
             "/api/online",
             "/api/console/"
         ];
-    if(!configData.adminPaths) configData.adminPaths = [
+    if(!configData.hasOwnProperty("adminPaths")) configData.adminPaths = [
             "/admin"
         ];
-    if(!configData.debug) configData.debug = false;
-    if(!configData["debug-errors"]) configData["debug-errors"] = false;
-    if(!configData["error-trace"]) configData["error-trace"] = true;
-    if(!configData["log-file"]) configData["log-file"] = true;
+    if(!configData.hasOwnProperty("debug")) configData.debug = false;
+    if(configData.hasOwnProperty("debug-errors")) configData["debug-errors"] = false;
+    if(!configData.hasOwnProperty("error-trace")) configData["error-trace"] = true;
+    if(!configData.hasOwnProperty("log-file")) configData["log-file"] = true;
 
     try{
         fs.writeFileSync(`${process.cwd()}/config.json`, JSON.stringify(configData, 0, 4));
