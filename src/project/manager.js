@@ -48,7 +48,7 @@ async function startServer(projectId){
     logger.debug("Started project with PID: " + server.pid);
 
     if(server === null){
-        logger.warn(`It isn't possible to start projects on this Operating System, please use a supported OS (${system.supported})`);
+        logger.warn(`You are using an unsupported Operating System, please use a supported OS: (${system.supported})`);
         logger.error(`Couldn't start project: ${project.id}`)
         return;
     }
@@ -59,44 +59,57 @@ async function startServer(projectId){
     consoleData[projectId] = {state: "Starting...", console: ["Staring server...\r\n<br>"], pid: server.pid};
     saveServerCache(projectId);
     
-    var sd = [];
-    
     server.stdout.on("data", (data) => {
         var output = data.toString();
-        sd.push(data.toString());
 
         let serverData = consoleData[projectId];
-        if(output.toLowerCase().indexOf("online") > -1) serverData.state = "Online";
+        if(output.toLowerCase().indexOf("vulnerabilities") > -1 && serverData.state === "Starting...") {
+            serverData.state = "Online";
+            output += "\r\n";
+        }
 
         let line = getLines(output);
-        serverData.pid = server.pid;
 
         serverData.console.push(line);
     });
+
+    server.stderr.on("data", data => {
+        var error = data.toString();
+
+        let serverData = consoleData[projectId];
+        serverData.state = "Error";
+
+        let line = getLines(error, "red");
+
+        serverData.console.push(line);
+    })
 }
 
-function getLines(output){
-    if(output.indexOf("\r\n[") > -1){
+function getLines(output, color=null){
+    if(output.indexOf("\r\n") > -1){
         let lines = output.split("\r\n");
 
         output = "";
         for(let i=0; i<lines.length;i++){
-            output += styleLine(lines[i]);
+            output += styleLine(lines[i], color);
         } 
     } else {
-        output = styleLine(output);
+        output = styleLine(output, color);
     }
-    //return output+"<br>";
     return output;
 }
 
-function styleLine(line){
-    color = "white";
-    if(line.indexOf("NOTICE") > -1) color = "lightblue";
-    if(line.indexOf("WARNING") > -1) color = "yellow";
-    if(line.indexOf("ERROR") > -1) color = "red";
-    if(line.indexOf("CRITICAL") > -1) color = "red";
-    if(line.indexOf("EMERGENCY") > -1) color = "red";
+function styleLine(line, color = null){
+    if(color === null){
+        color = "white";
+
+        line = line.toLowerCase();
+        if(line.indexOf("notice") > -1) color = "lightblue";
+        if(line.indexOf("warning") > -1) color = "yellow";
+        if(line.indexOf("error") > -1) color = "red";
+        if(line.indexOf("critical") > -1) color = "red";
+        if(line.indexOf("emergency") > -1) color = "red";
+    }
 
     return `<span style="color:${color}">${line}</span><br>`;
 }
@@ -109,7 +122,6 @@ function stopServer(projectId){
     serverData.console.push("Stopping the server...\r\n");
 
     let server = processes[projectId];
-    server.stdin.end();
     
     setTimeout(()=> {
         try{
@@ -118,7 +130,7 @@ function stopServer(projectId){
             try{
                 process.kill(server.pid);
             } catch(err){
-                logger.error(err);
+                
             }
         }
         
@@ -140,15 +152,6 @@ function sendCommand(command, projectId){
     let server = processes[projectId];
     consoleData[projectId].console.push(command+"<br>");
     server.stdin.write(command);
-}
-
-function isActive(projectId){
-    var active = projects[projectId].active;
-    var approved = projects[projectId].approved;
-
-    if(!active || !approved) return false;
-
-    return true;
 }
 
 module.exports = {
