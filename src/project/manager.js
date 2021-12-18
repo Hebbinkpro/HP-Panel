@@ -123,20 +123,10 @@ function stopServer(projectId){
 
     let server = processes[projectId];
     
-    setTimeout(()=> {
-        try{
-            process.kill(-server.pid);
-        }catch(err){
-            try{
-                process.kill(server.pid);
-            } catch(err){
-                
-            }
-        }
+    child_process.exec('taskkill /pid ' + server.pid + ' /T /F');
         
-        consoleData[projectId] = {state: "Offline", console: ["The server is offline\r\n"]}
-        delete processes[projectId];
-    },3000);
+    consoleData[projectId] = {state: "Offline", console: ["The server is offline\r\n"]}
+    delete processes[projectId];
 }
 
 function restartServer(projectId){
